@@ -1,0 +1,20 @@
+<h1>Dashboard</h1>
+
+<form method="get">
+  <label for="month">Month:</label>
+  <select name="month" id="month">
+    <option value="">All time</option>
+    {% for m in month_options %}
+      <option value="{{ m }}" {% if month == m %}selected{% endif %}>{{ m }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Filter</button>
+</form>
+
+<hr>
+
+<p><strong>Total Income:</strong> ${{ income_total }}</p>
+<p><strong>Total Expenses:</strong> ${{ expense_total }}</p>
+<p><strong>Net:</strong> ${{ net }}</p>
+
+<p><a href="{% url 'transactions:list' %}">Back to Transactions</a></p>

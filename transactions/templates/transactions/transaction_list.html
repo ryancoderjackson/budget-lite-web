@@ -1,0 +1,16 @@
+<h1>My Transactions</h1>
+
+<p><a href="{% url 'transactions:dashboard' %}">View Dashboard</a></p>
+<p><a href="{% url 'transactions:create' %}">+ Add Transaction</a></p>
+
+<ul>
+  {% for t in transactions %}
+    <li>
+      {{ t.date }} — {{ t.type }} — {{ t.category }} — {{ t.description }} — ${{ t.amount }}
+      | <a href="{% url 'transactions:edit' t.pk %}">Edit</a>
+      | <a href="{% url 'transactions:delete' t.pk %}">Delete</a>
+    </li>
+  {% empty %}
+    <li>No transactions yet.</li>
+  {% endfor %}
+</ul>
