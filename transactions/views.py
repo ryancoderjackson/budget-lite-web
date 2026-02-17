@@ -94,11 +94,29 @@ def dashboard(request):
             month_options.append(key)
             seen.add(key)
 
+    # Category totals (income + expense)
+    income_by_category = (
+        qs.filter(type="income")
+          .values("category")
+          .annotate(total=Coalesce(Sum("amount"), Decimal("0.00")))
+          .order_by("-total")
+    )
+
+    expense_by_category = (
+        qs.filter(type="expense")
+          .values("category")
+          .annotate(total=Coalesce(Sum("amount"), Decimal("0.00")))
+          .order_by("-total")
+    )
+
+
     context = {
         "month": month,
         "month_options": month_options,
         "income_total": income_total,
         "expense_total": expense_total,
         "net": net,
+        "income_by_category": income_by_category,
+        "expense_by_category": expense_by_category,
     }
     return render(request, "transactions/dashboard.html", context)

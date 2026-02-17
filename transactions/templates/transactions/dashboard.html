@@ -17,4 +17,25 @@
 <p><strong>Total Expenses:</strong> ${{ expense_total }}</p>
 <p><strong>Net:</strong> ${{ net }}</p>
 
+<hr>
+
+<h2>Expenses</h2>
+<ul>
+  {% for row in expense_by_category %}
+    <li>{{ row.category }} — ${{ row.total }}</li>
+  {% empty %}
+    <li>No expense transactions in this range.</li>
+  {% endfor %}
+</ul>
+
+<h2>Income</h2>
+<ul>
+  {% for row in income_by_category %}
+    <li>{{ row.category }} — ${{ row.total }}</li>
+  {% empty %}
+    <li>No income transactions in this range.</li>
+  {% endfor %}
+</ul>
+
+
 <p><a href="{% url 'transactions:list' %}">Back to Transactions</a></p>
