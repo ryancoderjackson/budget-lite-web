@@ -8,6 +8,18 @@ This project represents the evolution of the Budget Lite CLI application into a 
 
 ---
 
+## Project Evolution
+
+This project is the web-based evolution of the original Budget Lite CLI application.
+
+- **Budget Lite CLI** – File-based JSON storage, modular architecture, and terminal-based interaction.
+- **Budget Lite Web** – Database-backed (Django ORM), authenticated user accounts, and responsive UI.
+
+View the CLI version here:
+https://github.com/ryancoderjackson/budget-lite-cli
+
+---
+
 ## Features
 
 - User authentication (login/logout)
