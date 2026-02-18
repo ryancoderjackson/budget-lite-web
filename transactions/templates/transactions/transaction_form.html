@@ -1,9 +1,17 @@
-<h1>{{ title }}</h1>
+{% extends "base.html" %}
+{% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
+<h1 class="h3 mb-3">{{ title }}</h1>
 
-<p><a href="{% url 'transactions:list' %}">Back</a></p>
+<div class="card">
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit">Save</button>
+      <a class="btn btn-secondary" href="{% url 'transactions:list' %}">Cancel</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

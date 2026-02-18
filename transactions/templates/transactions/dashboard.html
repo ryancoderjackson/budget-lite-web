@@ -1,41 +1,87 @@
-<h1>Dashboard</h1>
+{% extends "base.html" %}
+{% block content %}
 
-<form method="get">
-  <label for="month">Month:</label>
-  <select name="month" id="month">
-    <option value="">All time</option>
-    {% for m in month_options %}
-      <option value="{{ m }}" {% if month == m %}selected{% endif %}>{{ m }}</option>
-    {% endfor %}
-  </select>
-  <button type="submit">Filter</button>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Dashboard</h1>
+</div>
+
+<form class="row g-2 align-items-end mb-4" method="get">
+  <div class="col-auto">
+    <label class="form-label" for="month">Month</label>
+    <select class="form-select" name="month" id="month">
+      <option value="">All time</option>
+      {% for m in month_options %}
+        <option value="{{ m }}" {% if month == m %}selected{% endif %}>{{ m }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-outline-primary" type="submit">Filter</button>
+    <a class="btn btn-outline-secondary" href="{% url 'transactions:dashboard' %}">Reset</a>
+  </div>
 </form>
 
-<hr>
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-muted">Total Income</div>
+        <div class="fs-4">${{ income_total|floatformat:"2" }}</div>
+      </div>
+    </div>
+  </div>
 
-<p><strong>Total Income:</strong> ${{ income_total }}</p>
-<p><strong>Total Expenses:</strong> ${{ expense_total }}</p>
-<p><strong>Net:</strong> ${{ net }}</p>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-muted">Total Expenses</div>
+        <div class="fs-4">${{ expense_total|floatformat:"2" }}</div>
+      </div>
+    </div>
+  </div>
 
-<hr>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-muted">Net</div>
+        <div class="fs-4">${{ net|floatformat:"2" }}</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h2>Expenses</h2>
-<ul>
-  {% for row in expense_by_category %}
-    <li>{{ row.category }} — ${{ row.total }}</li>
-  {% empty %}
-    <li>No expense transactions in this range.</li>
-  {% endfor %}
-</ul>
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Income</div>
+      <ul class="list-group list-group-flush">
+        {% for row in income_by_category %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ row.category }}</span>
+            <span>${{ row.total|floatformat:"2" }}</span>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No income transactions for this month.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 
-<h2>Income</h2>
-<ul>
-  {% for row in income_by_category %}
-    <li>{{ row.category }} — ${{ row.total }}</li>
-  {% empty %}
-    <li>No income transactions in this range.</li>
-  {% endfor %}
-</ul>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Expenses</div>
+      <ul class="list-group list-group-flush">
+        {% for row in expense_by_category %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ row.category }}</span>
+            <span>${{ row.total|floatformat:"2" }}</span>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No expense transactions for this month.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 
-
-<p><a href="{% url 'transactions:list' %}">Back to Transactions</a></p>
+{% endblock %}

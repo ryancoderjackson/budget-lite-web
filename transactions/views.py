@@ -11,8 +11,31 @@ from decimal import Decimal
 # Create your views here.
 @login_required
 def transaction_list(request):
-    transactions = Transaction.objects.filter(user=request.user).order_by("-date")
-    return render(request, "transactions/transaction_list.html", {"transactions": transactions})
+    sort = request.GET.get("sort", "-date")  # default newest first
+
+    # Whitelist allowed sort fields (security best practice)
+    allowed_sorts = [
+        "date", "-date",
+        "type", "-type",
+        "category", "-category",
+        "amount", "-amount",
+    ]
+
+    if sort not in allowed_sorts:
+        sort = "-date"
+
+    transactions = (
+        Transaction.objects
+        .filter(user=request.user)
+        .order_by(sort)
+    )
+
+    context = {
+        "transactions": transactions,
+        "current_sort": sort,
+    }
+
+    return render(request, "transactions/transaction_list.html", context)
 
 
 @login_required
